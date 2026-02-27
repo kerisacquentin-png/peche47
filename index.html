@@ -14,7 +14,7 @@ select,input{width:95%;padding:10px;margin:6px 0;font-size:16px}
 img{width:100%;border-radius:8px;margin-top:8px}
 .card{background:#fff;border-radius:12px;padding:12px;margin-bottom:12px}
 
-.leurres-container{display:flex;gap:10px}
+.leurres-container{display:flex;gap:10px;margin-top:10px}
 .leurre-card{flex:1;background:#f5f5f5;border-radius:10px;padding:10px;text-align:center}
 </style>
 </head>
@@ -23,9 +23,9 @@ img{width:100%;border-radius:8px;margin-top:8px}
 
 <header>🎣 PÊCHE 47 – Guide de pêche</header>
 
-<button onclick="show('journal')">Journal</button>
-<button onclick="show('spots')">Spots</button>
-<button onclick="show('conseils')">Conseils Montages / Leurres</button>
+<button onclick="show('journal')">Journal de captures</button>
+<button onclick="show('spots')">Mes spots</button>
+<button onclick="show('conseils')">Conseils montages / leurres</button>
 
 <!-- JOURNAL -->
 <section id="journal">
@@ -33,7 +33,7 @@ img{width:100%;border-radius:8px;margin-top:8px}
 <input id="j_espece" placeholder="Espèce">
 <input id="j_taille" type="number" placeholder="Taille (cm)">
 <input id="j_poids" type="number" placeholder="Poids (kg)">
-<input id="j_leurre" placeholder="Montage / Leurre">
+<input id="j_leurre" placeholder="Montage / leurre">
 <input id="j_grammage" type="number" placeholder="Grammage (g)">
 <input id="j_photo" type="file" accept="image/*">
 <button onclick="addCapture()">Ajouter</button>
@@ -42,10 +42,12 @@ img{width:100%;border-radius:8px;margin-top:8px}
 
 <!-- SPOTS -->
 <section id="spots">
-<h2>Mes spots</h2>
+<h2>Ajouter un spot</h2>
 <input id="spotName" placeholder="Nom du spot">
 <select id="spotType">
-<option>Rivière</option><option>Lac</option><option>Étang</option>
+<option>Rivière</option>
+<option>Lac</option>
+<option>Étang</option>
 </select>
 <button onclick="addSpot()">Ajouter</button>
 <div id="spotsList"></div>
@@ -95,6 +97,7 @@ img{width:100%;border-radius:8px;margin-top:8px}
 <script>
 show('journal');
 
+/* NAV */
 function show(id){
  document.querySelectorAll('section').forEach(s=>s.style.display='none');
  document.getElementById(id).style.display='block';
@@ -105,60 +108,104 @@ function addCapture(){
  const file=j_photo.files[0];
  const save=(photo)=>{
   const j=JSON.parse(localStorage.getItem('journal')||'[]');
-  j.push({e:j_espece.value,t:j_taille.value,p:j_poids.value,l:j_leurre.value,g:j_grammage.value,photo});
+  j.push({
+    espece:j_espece.value,
+    taille:j_taille.value,
+    poids:j_poids.value,
+    leurre:j_leurre.value,
+    grammage:j_grammage.value,
+    photo
+  });
   localStorage.setItem('journal',JSON.stringify(j));
   displayJournal();
  };
- if(file){const r=new FileReader();r.onload=e=>save(e.target.result);r.readAsDataURL(file);}
- else save('');
+ if(file){
+  const r=new FileReader();
+  r.onload=e=>save(e.target.result);
+  r.readAsDataURL(file);
+ } else save('');
 }
 function displayJournal(){
  const j=JSON.parse(localStorage.getItem('journal')||'[]');
  journalList.innerHTML=j.map(c=>`
- <div class="card"><b>${c.e}</b> – ${c.t}cm – ${c.p}kg<br>
- ${c.l} (${c.g}g)${c.photo?`<img src="${c.photo}">`:''}</div>`).join('');
+  <div class="card">
+   <b>${c.espece}</b> – ${c.taille}cm – ${c.poids}kg<br>
+   ${c.leurre} (${c.grammage}g)
+   ${c.photo?`<img src="${c.photo}">`:''}
+  </div>
+ `).join('');
 }
 displayJournal();
 
 /* SPOTS */
 function addSpot(){
  const s=JSON.parse(localStorage.getItem('spots')||'[]');
- s.push({n:spotName.value,t:spotType.value});
+ s.push({name:spotName.value,type:spotType.value});
  localStorage.setItem('spots',JSON.stringify(s));
  displaySpots();
 }
 function displaySpots(){
  const s=JSON.parse(localStorage.getItem('spots')||'[]');
- spotsList.innerHTML=s.map(x=>`<div class="card">${x.n} (${x.t})</div>`).join('');
+ spotsList.innerHTML=s.map(x=>`
+  <div class="card">${x.name} (${x.type})</div>
+ `).join('');
 }
 displaySpots();
 
 /* CONSEILS INTELLIGENTS */
 function conseil(){
+ const espece=esp.value;
+ const saison=saison.value;
+ const meteo=meteo.value;
+ const eau=eau.value;
+ const profondeur=profondeur.value;
+
  const base={
- Brochet:{Printemps:["spinnerbait","shad"],Automne:["crankbait","swimbait"]},
- Sandre:{Hiver:["shad","tete_plombee"]},
- Perche:{Été:["drop_shot","shad"]},
- Truite:{Printemps:["cuillere","crankbait"]},
- "Black Bass":{Été:["frog","crankbait"]},
- Silure:{Été:["montage_vif","shad"]}
+  "Brochet":[
+    {nom:"Spinnerbait",img:"spinnerbait.jpeg",desc:"Prospection des herbiers et bordures."},
+    {nom:"Shad",img:"shad.jpeg",desc:"Animation lente près du fond et obstacles."}
+  ],
+  "Sandre":[
+    {nom:"Shad",img:"shad.jpeg",desc:"Pêche verticale ou linéaire lente."},
+    {nom:"Tête plombée",img:"tete_plombee.jpeg",desc:"Travail précis du fond."}
+  ],
+  "Perche":[
+    {nom:"Drop shot",img:"drop_shot.jpeg",desc:"Technique finesse très efficace."},
+    {nom:"Micro shad",img:"shad.jpeg",desc:"Imitation des alevins."}
+  ],
+  "Truite":[
+    {nom:"Cuillère",img:"cuillere.jpeg",desc:"Déclenche l’attaque par vibration."},
+    {nom:"Poisson nageur",img:"crankbait.jpeg",desc:"Prospection des courants."}
+  ],
+  "Black Bass":[
+    {nom:"Frog",img:"frog.jpeg",desc:"Pêche de surface dans les herbiers."},
+    {nom:"Crankbait",img:"crankbait.jpeg",desc:"Recherche active en bordure."}
+  ],
+  "Silure":[
+    {nom:"Montage vif",img:"montage_vif.jpeg",desc:"Pêche statique des gros sujets."},
+    {nom:"Shad XXL",img:"shad.jpeg",desc:"Prospection lente en profondeur."}
+  ]
  };
 
- const espèce=esp.value;
- const saisonChoisie=saison.value;
- const l=base[espèce]?.[saisonChoisie];
+ let conseils=base[espece];
 
- if(!l){result.innerHTML="<p>Aucun conseil précis.</p>";return;}
+ if(eau==="Trouble") conseils=conseils.slice().reverse();
+ if(saison==="Hiver") conseils[0].desc+=" Animation très lente.";
+ if(meteo==="Pluie") conseils[1].desc+=" Les vibrations sont importantes.";
+ if(profondeur==="Profonde") conseils[1].desc+=" Travail proche du fond.";
 
  result.innerHTML=`
- <h3>${espèce} – ${saisonChoisie}</h3>
- <div class="leurres-container">
- ${l.map(x=>`
-  <div class="leurre-card">
-   <img src="images/montages/${x}.jpeg">
-   <b>${x.replace('_',' ')}</b>
-  </div>`).join('')}
- </div>`;
+  <h3>${espece} – Conseils adaptés</h3>
+  <div class="leurres-container">
+   ${conseils.map(l=>`
+    <div class="leurre-card">
+     <b>${l.nom}</b>
+     <img src="images/montages/${l.img}">
+     <p>${l.desc}</p>
+    </div>
+   `).join('')}
+  </div>
+ `;
 }
 </script>
 
