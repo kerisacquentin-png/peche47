@@ -8,16 +8,16 @@
 <style>
 body{margin:0;font-family:Arial;background:#0f3d2e;color:white}
 header{background:#1b5e20;padding:20px;text-align:center;font-size:26px;font-weight:bold}
-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;background:#2e7d32;padding:10px}
-nav button{background:#4caf50;border:none;padding:10px 14px;border-radius:8px;color:white;font-weight:bold}
+nav{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;background:#2e7d32;padding:10px}
+nav button{background:#4caf50;border:none;padding:12px 16px;border-radius:12px;color:white;font-weight:bold}
 section{display:none;padding:20px}
 section.active{display:block}
-.card{background:#1c1c1c;padding:15px;border-radius:10px;margin-bottom:15px}
+.card{background:#1c1c1c;padding:18px;border-radius:15px;margin-bottom:18px}
 h2{color:#8bc34a}
-select{width:100%;padding:10px;border-radius:8px;border:none;margin-top:8px}
-button.action{background:#4caf50;color:white;font-weight:bold;padding:10px;border-radius:8px;border:none;margin-top:10px;width:100%}
-img{width:100%;border-radius:10px;margin-top:10px}
-.footer{text-align:center;padding:10px;background:#1b5e20;font-size:14px}
+select{width:100%;padding:12px;border-radius:10px;border:none;margin-top:10px}
+button.action{background:#4caf50;color:white;font-weight:bold;padding:12px;border-radius:12px;border:none;margin-top:12px;width:100%}
+img{width:100%;border-radius:12px;margin-top:12px}
+.footer{text-align:center;padding:12px;background:#1b5e20;font-size:14px}
 </style>
 </head>
 
@@ -29,18 +29,13 @@ img{width:100%;border-radius:10px;margin-top:10px}
 <button onclick="show('home')">Accueil</button>
 <button onclick="show('leurres')">Conseils Leurres</button>
 <button onclick="show('montages')">Conseils Montages</button>
-<button onclick="show('info')">À propos</button>
 </nav>
 
 <section id="home" class="active">
 <div class="card">
 <h2>Bienvenue</h2>
-<p>Outil de conseils pêche eau douce. Sélectionne les conditions et obtiens le bon leurre ou le bon montage.</p>
-<img src="data:image/svg+xml;utf8,
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100'>
-<rect width='200' height='100' fill='%232e7d32'/>
-<text x='50%' y='55%' fill='white' font-size='20' text-anchor='middle'>PÊCHE 47</text>
-</svg>">
+<p>Guide de pêche eau douce avec techniques réellement adaptées à chaque espèce.</p>
+<img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Fishing_in_river.jpg">
 </div>
 </section>
 
@@ -48,24 +43,21 @@ img{width:100%;border-radius:10px;margin-top:10px}
 <div class="card">
 <h2>Conseils Leurres</h2>
 
-<select id="l_espece">
-<option>Ablette</option><option>Goujon</option><option>Vairon</option>
-<option>Gardon</option><option>Rotengle</option><option>Brème</option>
-<option>Tanche</option><option>Chevesne</option><option>Perche</option>
-<option>Truite</option><option>Ombre</option><option>Black-bass</option>
-<option>Sandre</option><option>Brochet</option><option>Silure</option>
+<select id="espece">
+<option>Ablerte</option>
+<option>Gardon</option>
+<option>Perche</option>
+<option>Truite</option>
+<option>Sandre</option>
+<option>Brochet</option>
+<option>Silure</option>
 </select>
 
-<select id="l_saison">
-<option>Printemps</option><option>Été</option><option>Automne</option><option>Hiver</option>
-</select>
-
-<select id="l_eau">
-<option>Eau claire</option><option>Eau teintée</option><option>Eau trouble</option>
-</select>
-
-<select id="l_meteo">
-<option>Soleil</option><option>Couvert</option><option>Pluie</option>
+<select id="saison">
+<option>Printemps</option>
+<option>Été</option>
+<option>Automne</option>
+<option>Hiver</option>
 </select>
 
 <button class="action" onclick="conseilLeurre()">Afficher le conseil</button>
@@ -79,26 +71,19 @@ img{width:100%;border-radius:10px;margin-top:10px}
 <h2>Conseils Montages</h2>
 
 <select id="m_espece">
-<option>Ablette</option><option>Gardon</option><option>Brème</option>
-<option>Perche</option><option>Truite</option><option>Black-bass</option>
-<option>Sandre</option><option>Brochet</option><option>Silure</option>
-</select>
-
-<select id="m_saison">
-<option>Printemps</option><option>Été</option><option>Automne</option><option>Hiver</option>
+<option>Ablerte</option>
+<option>Gardon</option>
+<option>Perche</option>
+<option>Truite</option>
+<option>Sandre</option>
+<option>Brochet</option>
+<option>Silure</option>
 </select>
 
 <button class="action" onclick="conseilMontage()">Afficher le montage</button>
 </div>
 
 <div class="card" id="montage_resultat"></div>
-</section>
-
-<section id="info">
-<div class="card">
-<h2>À propos</h2>
-<p>Ce site fournit des conseils généraux de pêche en eau douce. Adapte toujours selon la réglementation locale.</p>
-</div>
 </section>
 
 <div class="footer">© Pêche 47 – Conseils pêche eau douce</div>
@@ -110,28 +95,77 @@ document.getElementById(id).classList.add('active');
 }
 
 function conseilLeurre(){
-const e=l_espece.value;
-leurre_resultat.innerHTML=
-`<h2>${e}</h2>
-<p>Leurre conseillé : leurre souple / cuillère / poisson nageur selon conditions.</p>
-<p>Grammage adapté à l'espèce et à la profondeur.</p>
-<img src="data:image/svg+xml;utf8,
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100'>
-<rect width='200' height='100' fill='%234caf50'/>
-<text x='50%' y='55%' fill='white' font-size='14' text-anchor='middle'>LEURRE</text>
-</svg>">`;
+const e=document.getElementById('espece').value;
+let txt='',img='';
+
+if(e==='Ablerte'){
+txt='Micro cuillère ou pêche de surface ultra légère.';
+img='https://upload.wikimedia.org/wikipedia/commons/2/2e/Alburnus_alburnus.jpg';
+}
+if(e==='Gardon'){
+txt='Cuillère légère ou petit leurre souple.';
+img='https://upload.wikimedia.org/wikipedia/commons/3/39/Rutilus_rutilus.jpg';
+}
+if(e==='Perche'){
+txt='Drop shot ou petit shad 3–5 cm.';
+img='https://upload.wikimedia.org/wikipedia/commons/7/7d/Perca_fluviatilis.jpg';
+}
+if(e==='Truite'){
+txt='Cuillère tournante ou poisson nageur.';
+img='https://upload.wikimedia.org/wikipedia/commons/2/2b/Brown_trout.jpg';
+}
+if(e==='Sandre'){
+txt='Tête plombée en verticale ou linéaire.';
+img='https://upload.wikimedia.org/wikipedia/commons/3/3e/Sander_lucioperca.jpg';
+}
+if(e==='Brochet'){
+txt='Spinnerbait, shad, jerkbait.';
+img='https://upload.wikimedia.org/wikipedia/commons/1/1e/Northern_Pike.jpg';
+}
+if(e==='Silure'){
+txt='Gros leurre souple ou montage vif.';
+img='https://upload.wikimedia.org/wikipedia/commons/4/4b/Silurus_glanis.jpg';
+}
+
+document.getElementById('leurre_resultat').innerHTML=
+`<h2>${e}</h2><p>${txt}</p><img src="${img}">`;
 }
 
 function conseilMontage(){
-const e=m_espece.value;
-montage_resultat.innerHTML=
-`<h2>${e}</h2>
-<p>Montage recommandé : ligne simple adaptée à l'espèce et à la saison.</p>
-<img src="data:image/svg+xml;utf8,
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100'>
-<rect width='200' height='100' fill='%238bc34a'/>
-<text x='50%' y='55%' fill='black' font-size='14' text-anchor='middle'>MONTAGE</text>
-</svg>">`;
+const e=document.getElementById('m_espece').value;
+let txt='',img='';
+
+if(e==='Ablerte'){
+txt='Ligne au coup ultra fine, hameçon n°22.';
+img='https://upload.wikimedia.org/wikipedia/commons/1/16/Pole_fishing_rig.jpg';
+}
+if(e==='Gardon'){
+txt='Ligne au coup classique avec flotteur.';
+img='https://upload.wikimedia.org/wikipedia/commons/4/4f/Float_fishing_rig.png';
+}
+if(e==='Perche'){
+txt='Montage drop shot léger.';
+img='https://upload.wikimedia.org/wikipedia/commons/9/9c/Drop_shot_rig.png';
+}
+if(e==='Truite'){
+txt='Montage cuillère en rivière.';
+img='https://upload.wikimedia.org/wikipedia/commons/3/3c/Fishing_spoons.jpg';
+}
+if(e==='Sandre'){
+txt='Montage tête plombée.';
+img='https://upload.wikimedia.org/wikipedia/commons/6/67/Soft_plastic_fishing_lures.jpg';
+}
+if(e==='Brochet'){
+txt='Bas de ligne acier + leurre.';
+img='https://upload.wikimedia.org/wikipedia/commons/8/8c/Spinnerbait_lure.jpg';
+}
+if(e==='Silure'){
+txt='Montage vif ou vers en plombée lourde.';
+img='https://upload.wikimedia.org/wikipedia/commons/5/5e/Catfish_rig.png';
+}
+
+document.getElementById('montage_resultat').innerHTML=
+`<h2>${e}</h2><p>${txt}</p><img src="${img}">`;
 }
 </script>
 
