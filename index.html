@@ -6,62 +6,18 @@
 <title>Pêche 47</title>
 
 <style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#0f3d2e;
-  color:white;
-}
-header{
-  background:#1b5e20;
-  padding:20px;
-  text-align:center;
-  font-size:26px;
-  font-weight:bold;
-}
-nav{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  background:#2e7d32;
-  padding:10px;
-  flex-wrap:wrap;
-}
-nav button{
-  background:#4caf50;
-  border:none;
-  padding:10px 15px;
-  border-radius:8px;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
-section{display:none;padding:20px;}
-section.active{display:block;}
-.card{
-  background:#1c1c1c;
-  border-radius:10px;
-  padding:15px;
-  margin-bottom:15px;
-}
-h2{color:#8bc34a;}
-img{
-  width:100%;
-  border-radius:10px;
-  margin-top:10px;
-}
-select,textarea,button.send{
-  width:100%;
-  padding:10px;
-  margin-top:10px;
-  border-radius:8px;
-  border:none;
-}
-footer{
-  text-align:center;
-  padding:10px;
-  background:#1b5e20;
-}
+body{margin:0;font-family:Arial;background:#0f3d2e;color:white}
+header{background:#1b5e20;padding:20px;text-align:center;font-size:26px;font-weight:bold}
+nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;background:#2e7d32;padding:10px}
+nav button{background:#4caf50;border:none;padding:10px 14px;border-radius:8px;color:white;font-weight:bold}
+section{display:none;padding:20px}
+section.active{display:block}
+.card{background:#1c1c1c;padding:15px;border-radius:10px;margin-bottom:15px}
+h2{color:#8bc34a}
+select,input,textarea,button{width:100%;padding:10px;margin-top:8px;border-radius:8px;border:none}
+button.action{background:#4caf50;color:white;font-weight:bold}
+img{width:100%;border-radius:10px;margin-top:10px}
+.post{border:1px solid #4caf50;padding:10px;border-radius:8px;margin-top:10px}
 </style>
 </head>
 
@@ -70,92 +26,140 @@ footer{
 <header>🎣 PÊCHE 47</header>
 
 <nav>
-  <button onclick="show('accueil')">Accueil</button>
-  <button onclick="show('leurres')">Conseils Leurres</button>
-  <button onclick="show('communaute')">Discussion</button>
+<button onclick="show('home')">Accueil</button>
+<button onclick="show('leurres')">Conseils Leurres</button>
+<button onclick="show('montages')">Montages</button>
+<button onclick="show('capture')">Partager une capture</button>
+<button onclick="show('chat')">Discussion</button>
 </nav>
 
-<section id="accueil" class="active">
-  <div class="card">
-    <h2>Bienvenue</h2>
-    <p>Conseils de pêche selon l’espèce, la saison et la profondeur.</p>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Fishing_in_river.jpg">
-  </div>
+<section id="home" class="active">
+<div class="card">
+<h2>Bienvenue</h2>
+<p>Carnet de pêche intelligent : conseils, montages, captures avec photo et GPS.</p>
+</div>
 </section>
 
 <section id="leurres">
-  <div class="card">
-    <h2>Choisis tes conditions</h2>
+<div class="card">
+<h2>Conseils Leurres</h2>
 
-    <select id="espece">
-      <option>Brochet</option>
-      <option>Sandre</option>
-      <option>Perche</option>
-      <option>Truite</option>
-      <option>Black-bass</option>
-      <option>Chevesne</option>
-    </select>
+<select id="l_espece">
+<option>Brochet</option><option>Sandre</option><option>Perche</option>
+<option>Truite</option><option>Black-bass</option><option>Chevesne</option>
+</select>
 
-    <select id="saison">
-      <option>Printemps</option>
-      <option>Été</option>
-      <option>Automne</option>
-      <option>Hiver</option>
-    </select>
+<select id="l_saison">
+<option>Printemps</option><option>Été</option><option>Automne</option><option>Hiver</option>
+</select>
 
-    <select id="profondeur">
-      <option>Peu profond</option>
-      <option>Moyen</option>
-      <option>Profond</option>
-    </select>
+<select id="l_profondeur">
+<option>Peu profond</option><option>Moyen</option><option>Profond</option>
+</select>
 
-    <button class="send" onclick="conseil()">Obtenir le conseil</button>
-  </div>
+<button class="action" onclick="conseilLeurre()">Voir le conseil</button>
+</div>
 
-  <div class="card" id="resultat"></div>
+<div class="card" id="leurre_resultat"></div>
 </section>
 
-<section id="communaute">
-  <div class="card">
-    <h2>Discussion entre pêcheurs</h2>
-    <textarea id="msg" placeholder="Écris ton message..."></textarea>
-    <button class="send" onclick="envoyer()">Envoyer</button>
-  </div>
-  <div id="chat"></div>
+<section id="montages">
+<div class="card">
+<h2>Conseils Montages</h2>
+
+<select id="m_espece">
+<option>Brochet</option><option>Sandre</option><option>Perche</option>
+<option>Truite</option><option>Black-bass</option>
+</select>
+
+<button class="action" onclick="conseilMontage()">Voir le montage</button>
+</div>
+
+<div class="card" id="montage_resultat"></div>
 </section>
 
-<footer>© Pêche 47 – 100% gratuit</footer>
+<section id="capture">
+<div class="card">
+<h2>Partager une capture</h2>
+
+<input id="c_espece" placeholder="Espèce">
+<input id="c_leurre" placeholder="Leurre utilisé">
+<input id="c_montage" placeholder="Montage">
+<input type="file" id="c_photo" accept="image/*">
+
+<button class="action" onclick="getGPS()">📍 Utiliser ma position GPS</button>
+<p id="gps"></p>
+
+<button class="action" onclick="saveCapture()">Enregistrer</button>
+</div>
+
+<div id="captures"></div>
+</section>
+
+<section id="chat">
+<div class="card">
+<h2>Discussion</h2>
+<textarea id="msg" placeholder="Ton message..."></textarea>
+<button class="action" onclick="sendMsg()">Envoyer</button>
+</div>
+<div id="messages"></div>
+</section>
 
 <script>
 function show(id){
-  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
 }
 
-function conseil(){
-  const e=document.getElementById('espece').value;
-  let img='';
-  if(e==='Brochet') img='https://upload.wikimedia.org/wikipedia/commons/1/1e/Northern_Pike.jpg';
-  if(e==='Sandre') img='https://upload.wikimedia.org/wikipedia/commons/3/3e/Sander_lucioperca.jpg';
-  if(e==='Perche') img='https://upload.wikimedia.org/wikipedia/commons/7/7d/Perca_fluviatilis.jpg';
-  if(e==='Truite') img='https://upload.wikimedia.org/wikipedia/commons/2/2b/Brown_trout.jpg';
-  if(e==='Black-bass') img='https://upload.wikimedia.org/wikipedia/commons/6/6b/Micropterus_salmoides.jpg';
-  if(e==='Chevesne') img='https://upload.wikimedia.org/wikipedia/commons/5/55/Squalius_cephalus.jpg';
-
-  document.getElementById('resultat').innerHTML=
-    `<h2>${e}</h2>
-     <p>Leurre conseillé adapté aux conditions choisies.</p>
-     <img src="${img}">`;
+/* LEURRES */
+function conseilLeurre(){
+const e=document.getElementById('l_espece').value;
+document.getElementById('leurre_resultat').innerHTML=
+`<h2>${e}</h2><p>Leurre adapté à l'espèce, saison et profondeur sélectionnées.</p>`;
 }
 
-function envoyer(){
-  const txt=document.getElementById('msg').value;
-  if(!txt)return;
-  const div=document.createElement('div');
-  div.className='card';
-  div.textContent=txt;
-  document.getElementById('chat').prepend(div);
-  document.getElementById('msg').value='';
+/* MONTAGES */
+function conseilMontage(){
+const e=document.getElementById('m_espece').value;
+document.getElementById('montage_resultat').innerHTML=
+`<h2>${e}</h2><p>Montage recommandé : tête plombée / drop shot / cuillère selon conditions.</p>`;
+}
+
+/* GPS */
+let lat=null,lon=null;
+function getGPS(){
+navigator.geolocation.getCurrentPosition(p=>{
+lat=p.coords.latitude.toFixed(5);
+lon=p.coords.longitude.toFixed(5);
+document.getElementById('gps').innerText=`📍 ${lat} , ${lon}`;
+});
+}
+
+/* CAPTURE */
+function saveCapture(){
+const file=document.getElementById('c_photo').files[0];
+const reader=new FileReader();
+reader.onload=()=>{
+const div=document.createElement('div');
+div.className='post';
+div.innerHTML=
+`<strong>${c_espece.value}</strong><br>
+Leurre: ${c_leurre.value}<br>
+Montage: ${c_montage.value}<br>
+GPS: ${lat}, ${lon}<br>
+<img src="${reader.result}">`;
+document.getElementById('captures').prepend(div);
+};
+if(file)reader.readAsDataURL(file);
+}
+
+/* CHAT */
+function sendMsg(){
+const div=document.createElement('div');
+div.className='post';
+div.innerText=msg.value;
+messages.prepend(div);
+msg.value='';
 }
 </script>
 
