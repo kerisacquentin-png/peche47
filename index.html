@@ -65,6 +65,79 @@ img{width:100%;border-radius:8px;margin-top:8px}
 </section>
 
 <script>
+show('conseils');
+
+function show(id){
+  document.querySelectorAll('section').forEach(s=>s.style.display='none');
+  document.getElementById(id).style.display='block';
+}
+
+function conseil(){
+  const espece = document.getElementById("esp").value;
+  const saison = document.getElementById("saison").value;
+  const meteo  = document.getElementById("meteo").value;
+  const eau    = document.getElementById("eau").value;
+  const prof   = document.getElementById("profondeur").value;
+
+  const base = {
+    "Brochet": [
+      {nom:"Spinnerbait", img:"spinnerbait.jpeg"},
+      {nom:"Shad", img:"shad.jpeg"}
+    ],
+    "Sandre": [
+      {nom:"Shad", img:"shad.jpeg"},
+      {nom:"Tête plombée", img:"tete_plombee.jpeg"}
+    ],
+    "Perche": [
+      {nom:"Drop shot", img:"drop_shot.jpeg"},
+      {nom:"Micro shad", img:"shad.jpeg"}
+    ],
+    "Truite": [
+      {nom:"Cuillère", img:"cuillere.jpeg"},
+      {nom:"Poisson nageur", img:"crankbait.jpeg"}
+    ],
+    "Black Bass": [
+      {nom:"Frog", img:"frog.jpeg"},
+      {nom:"Crankbait", img:"crankbait.jpeg"}
+    ],
+    "Silure": [
+      {nom:"Montage vif", img:"montage_vif.jpeg"},
+      {nom:"Shad XXL", img:"shad.jpeg"}
+    ]
+  };
+
+  const conseils = base[espece];
+
+  let texte = `Conditions : ${saison}, ${meteo}, eau ${eau}, profondeur ${prof}. `;
+  if(saison==="Hiver") texte += "Animation très lente recommandée. ";
+  if(eau==="Trouble") texte += "Privilégie les vibrations. ";
+  if(meteo==="Pluie") texte += "Les poissons sont souvent plus actifs. ";
+
+  result.innerHTML = `
+    <div class="card">
+      <h3>${espece}</h3>
+      <p>${texte}</p>
+      <div class="leurres">
+        ${conseils.map(l=>`
+          <div class="leurre">
+            <strong>${l.nom}</strong>
+            <img src="images/montages/${l.img}">
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+}
+</script>
+
+</body>
+</html>
+
+<button onclick="conseil()">Voir les conseils</button>
+<div id="result"></div>
+</section>
+
+<script>
 function conseil(){
   const espece = document.getElementById("esp").value;
   const saison = document.getElementById("saison").value;
@@ -123,71 +196,7 @@ function conseil(){
       ],
       "Automne": [
         {nom:"Shad", img:"shad.jpeg", desc:"Bancs de perches actifs."},
-        {nom:"Cuillère", img:"cuillere.jpeg", desc:"Recherche en pleine eau."}
-      ],
-      "Hiver": [
-        {nom:"Drop shot", img:"drop_shot.jpeg", desc:"Pêche lente et précise."},
-        {nom:"Micro shad", img:"shad.jpeg", desc:"Animation minimale."}
-      ]
-    },
 
-    "Truite": {
-      "Printemps": [
-        {nom:"Cuillère", img:"cuillere.jpeg", desc:"Eau fraîche et courants."},
-        {nom:"Poisson nageur", img:"crankbait.jpeg", desc:"Prospection des veines d’eau."}
-      ],
-      "Été": [
-        {nom:"Poisson nageur", img:"crankbait.jpeg", desc:"Zones ombragées."},
-        {nom:"Micro leurre", img:"shad.jpeg", desc:"Pêche discrète."}
-      ],
-      "Automne": [
-        {nom:"Cuillère", img:"cuillere.jpeg", desc:"Poissons actifs avant l’hiver."},
-        {nom:"Poisson nageur", img:"crankbait.jpeg", desc:"Prospection."}
-      ],
-      "Hiver": [
-        {nom:"Micro leurre", img:"shad.jpeg", desc:"Animation lente."},
-        {nom:"Cuillère légère", img:"cuillere.jpeg", desc:"Déclenchement par vibration."}
-      ]
-    },
-
-    "Black Bass": {
-      "Printemps": [
-        {nom:"Spinnerbait", img:"spinnerbait.jpeg", desc:"Zones de reproduction."},
-        {nom:"Leurre souple", img:"shad.jpeg", desc:"Pêche lente."}
-      ],
-      "Été": [
-        {nom:"Frog", img:"frog.jpeg", desc:"Surface et herbiers."},
-        {nom:"Crankbait", img:"crankbait.jpeg", desc:"Prospection."}
-      ],
-      "Automne": [
-        {nom:"Crankbait", img:"crankbait.jpeg", desc:"Poissons en chasse."},
-        {nom:"Shad", img:"shad.jpeg", desc:"Imitation proies."}
-      ],
-      "Hiver": [
-        {nom:"Leurre souple", img:"shad.jpeg", desc:"Animation très lente."},
-        {nom:"Jig", img:"tete_plombee.jpeg", desc:"Pêche près du fond."}
-      ]
-    },
-
-    "Silure": {
-      "Printemps": [
-        {nom:"Montage vif", img:"montage_vif.jpeg", desc:"Zones profondes."},
-        {nom:"Shad XXL", img:"shad.jpeg", desc:"Gros leurres visibles."}
-      ],
-      "Été": [
-        {nom:"Montage vif", img:"montage_vif.jpeg", desc:"Pêche nocturne."},
-        {nom:"Shad XXL", img:"shad.jpeg", desc:"Prospection lente."}
-      ],
-      "Automne": [
-        {nom:"Shad XXL", img:"shad.jpeg", desc:"Poissons actifs."},
-        {nom:"Montage vif", img:"montage_vif.jpeg", desc:"Gros sujets."}
-      ],
-      "Hiver": [
-        {nom:"Montage vif", img:"montage_vif.jpeg", desc:"Pêche statique profonde."},
-        {nom:"Shad", img:"shad.jpeg", desc:"Animation minimale."}
-      ]
-    }
-  };
 
   const conseils = base[espece][saison];
 
