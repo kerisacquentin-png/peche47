@@ -1,128 +1,171 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Pêche 47 – Conseils eau douce</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f3d2e;
-      color: #fff;
-    }
-    header {
-      background: #1e7f43;
-      padding: 20px;
-      text-align: center;
-    }
-    nav button {
-      margin: 5px;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 10px;
-      background: #4caf50;
-      color: #fff;
-      font-size: 16px;
-    }
-    section {
-      padding: 20px;
-    }
-    .card {
-      background: #1c1c1c;
-      border-radius: 15px;
-      padding: 15px;
-      margin-bottom: 20px;
-    }
-    img {
-      max-width: 100%;
-      border-radius: 10px;
-      margin-top: 10px;
-    }
-    select, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 8px;
-      border: none;
-      font-size: 16px;
-    }
-    footer {
-      text-align: center;
-      padding: 15px;
-      background: #1e7f43;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Pêche 47 – Conseils eau douce</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#0f3d2e;
+  color:#fff;
+}
+header{
+  background:#1e7f43;
+  padding:20px;
+  text-align:center;
+}
+nav button{
+  margin:5px;
+  padding:10px 16px;
+  border:none;
+  border-radius:10px;
+  background:#4caf50;
+  color:#fff;
+  font-size:16px;
+}
+section{
+  padding:20px;
+}
+.card{
+  background:#1c1c1c;
+  border-radius:15px;
+  padding:15px;
+  margin-bottom:20px;
+}
+img{
+  width:100%;
+  border-radius:10px;
+  margin-top:10px;
+}
+select{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border-radius:8px;
+  border:none;
+}
+button.action{
+  margin-top:15px;
+  width:100%;
+  padding:12px;
+  background:#4caf50;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+  color:#fff;
+}
+footer{
+  background:#1e7f43;
+  text-align:center;
+  padding:15px;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>🎣 PÊCHE 47 – Conseils eau douce</h1>
+  <h1>🎣 PÊCHE 47</h1>
   <nav>
-    <button onclick="show('poissons')">Poissons</button>
-    <button onclick="show('leurres')">Leurres</button>
-    <button onclick="show('montages')">Montages</button>
+    <button onclick="showTab('poissons')">Poissons</button>
+    <button onclick="showTab('montages')">Montages / Leurres</button>
   </nav>
 </header>
 
-<section id="poissons" class="content">
+<section id="poissons">
   <div class="card">
-    <h2>Black-bass</h2>
-    <p>Carnassier actif en été, zones peu profondes.</p>
-    <img src="images/poissons/blackbass.jpg" alt="Black-bass">
+    <h2>Choisir une espèce</h2>
+    <select id="poissonSelect">
+      <option value="brochet">Brochet</option>
+      <option value="perche">Perche</option>
+      <option value="sandre">Sandre</option>
+      <option value="truite">Truite</option>
+      <option value="blackbass">Black-bass</option>
+      <option value="silure">Silure</option>
+      <option value="gardon">Gardon</option>
+      <option value="tanche">Tanche</option>
+      <option value="breme">Brème</option>
+      <option value="rotengle">Rotengle</option>
+      <option value="chevesne">Chevesne</option>
+      <option value="ablette">Ablette</option>
+    </select>
+    <button class="action" onclick="afficherPoisson()">Afficher</button>
   </div>
 
-  <div class="card">
-    <h2>Brochet</h2>
-    <p>Prédateur embusqué, zones herbeuses.</p>
-    <img src="images/poissons/brochet.jpg" alt="Brochet">
-  </div>
-
-  <div class="card">
-    <h2>Perche</h2>
-    <p>Chasse en banc, bordures et obstacles.</p>
-    <img src="images/poissons/perche.jpg" alt="Perche">
-  </div>
+  <div class="card" id="poissonResultat"></div>
 </section>
 
-<section id="leurres" class="content" style="display:none">
+<section id="montages" style="display:none">
   <div class="card">
-    <h2>Spinnerbait</h2>
-    <img src="images/leurres/spinnerbait.jpg" alt="Spinnerbait">
-    <p>Eau trouble, carnassiers actifs.</p>
+    <h2>Conditions de pêche</h2>
+
+    <select id="montagePoisson">
+      <option value="brochet">Brochet</option>
+      <option value="perche">Perche</option>
+      <option value="sandre">Sandre</option>
+      <option value="truite">Truite</option>
+      <option value="blackbass">Black-bass</option>
+      <option value="silure">Silure</option>
+    </select>
+
+    <select id="saison">
+      <option>Printemps</option>
+      <option>Été</option>
+      <option>Automne</option>
+      <option>Hiver</option>
+    </select>
+
+    <select id="meteo">
+      <option>Soleil</option>
+      <option>Couvert</option>
+      <option>Pluie</option>
+    </select>
+
+    <button class="action" onclick="afficherMontage()">Voir le montage</button>
   </div>
 
-  <div class="card">
-    <h2>Crankbait</h2>
-    <img src="images/leurres/crankbait.jpg" alt="Crankbait">
-    <p>Prospection rapide.</p>
-  </div>
-</section>
-
-<section id="montages" class="content" style="display:none">
-  <div class="card">
-    <h2>Montage au coup</h2>
-    <img src="images/montages/montage_coup.jpg" alt="Montage coup">
-    <p>Idéal poissons blancs.</p>
-  </div>
-
-  <div class="card">
-    <h2>Drop shot</h2>
-    <img src="images/montages/drop_shot.jpg" alt="Drop shot">
-    <p>Perche et sandre en finesse.</p>
-  </div>
+  <div class="card" id="montageResultat"></div>
 </section>
 
 <footer>
-  © Pêche 47 – 100 % gratuit
+  © Pêche 47 – Conseils eau douce
 </footer>
 
 <script>
-  function show(id) {
-    document.querySelectorAll('.content').forEach(s => s.style.display = 'none');
-    document.getElementById(id).style.display = 'block';
-  }
+function showTab(id){
+  document.getElementById("poissons").style.display="none";
+  document.getElementById("montages").style.display="none";
+  document.getElementById(id).style.display="block";
+}
+
+function afficherPoisson(){
+  const p = document.getElementById("poissonSelect").value;
+  document.getElementById("poissonResultat").innerHTML =
+    `<h3>${p.charAt(0).toUpperCase()+p.slice(1)}</h3>
+     <img src="images/poissons/${p}.jpeg">
+     <p>Espèce d’eau douce courante, à adapter selon la saison et le milieu.</p>`;
+}
+
+function afficherMontage(){
+  const p = document.getElementById("montagePoisson").value;
+  let texte = "";
+  let img = "";
+
+  if(p==="brochet"){ texte="Spinnerbait ou shad sur tête plombée."; img="spinnerbait"; }
+  if(p==="perche"){ texte="Drop shot ou petit shad."; img="drop_shot"; }
+  if(p==="sandre"){ texte="Tête plombée en verticale."; img="tete_plombee"; }
+  if(p==="truite"){ texte="Cuillère ou petit poisson nageur."; img="cuillere"; }
+  if(p==="blackbass"){ texte="Leurre souple ou frog en surface."; img="frog"; }
+  if(p==="silure"){ texte="Montage vif ou gros leurre."; img="montage_vif"; }
+
+  document.getElementById("montageResultat").innerHTML =
+    `<h3>Montage conseillé</h3>
+     <p>${texte}</p>
+     <img src="images/montages/${img}.jpeg">`;
+}
 </script>
 
 </body>
