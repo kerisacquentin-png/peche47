@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pêche 47</title>
+<title>Pêche 47 – Conseils pêche eau douce</title>
 
 <style>
 body{margin:0;font-family:Arial;background:#0f3d2e;color:white}
@@ -14,29 +14,33 @@ section{display:none;padding:20px}
 section.active{display:block}
 .card{background:#1c1c1c;padding:15px;border-radius:10px;margin-bottom:15px}
 h2{color:#8bc34a}
-select,input,textarea,button{width:100%;padding:10px;margin-top:8px;border-radius:8px;border:none}
-button.action{background:#4caf50;color:white;font-weight:bold}
+select{width:100%;padding:10px;border-radius:8px;border:none;margin-top:8px}
+button.action{background:#4caf50;color:white;font-weight:bold;padding:10px;border-radius:8px;border:none;margin-top:10px;width:100%}
 img{width:100%;border-radius:10px;margin-top:10px}
-.post{border:1px solid #4caf50;padding:10px;border-radius:8px;margin-top:10px}
+.footer{text-align:center;padding:10px;background:#1b5e20;font-size:14px}
 </style>
 </head>
 
 <body>
 
-<header>🎣 PÊCHE 47</header>
+<header>🎣 PÊCHE 47 – CONSEILS EAU DOUCE</header>
 
 <nav>
 <button onclick="show('home')">Accueil</button>
 <button onclick="show('leurres')">Conseils Leurres</button>
-<button onclick="show('montages')">Montages</button>
-<button onclick="show('capture')">Partager une capture</button>
-<button onclick="show('chat')">Discussion</button>
+<button onclick="show('montages')">Conseils Montages</button>
+<button onclick="show('info')">À propos</button>
 </nav>
 
 <section id="home" class="active">
 <div class="card">
 <h2>Bienvenue</h2>
-<p>Carnet de pêche intelligent : conseils, montages, captures avec photo et GPS.</p>
+<p>Outil de conseils pêche eau douce. Sélectionne les conditions et obtiens le bon leurre ou le bon montage.</p>
+<img src="data:image/svg+xml;utf8,
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100'>
+<rect width='200' height='100' fill='%232e7d32'/>
+<text x='50%' y='55%' fill='white' font-size='20' text-anchor='middle'>PÊCHE 47</text>
+</svg>">
 </div>
 </section>
 
@@ -45,19 +49,26 @@ img{width:100%;border-radius:10px;margin-top:10px}
 <h2>Conseils Leurres</h2>
 
 <select id="l_espece">
-<option>Brochet</option><option>Sandre</option><option>Perche</option>
-<option>Truite</option><option>Black-bass</option><option>Chevesne</option>
+<option>Ablette</option><option>Goujon</option><option>Vairon</option>
+<option>Gardon</option><option>Rotengle</option><option>Brème</option>
+<option>Tanche</option><option>Chevesne</option><option>Perche</option>
+<option>Truite</option><option>Ombre</option><option>Black-bass</option>
+<option>Sandre</option><option>Brochet</option><option>Silure</option>
 </select>
 
 <select id="l_saison">
 <option>Printemps</option><option>Été</option><option>Automne</option><option>Hiver</option>
 </select>
 
-<select id="l_profondeur">
-<option>Peu profond</option><option>Moyen</option><option>Profond</option>
+<select id="l_eau">
+<option>Eau claire</option><option>Eau teintée</option><option>Eau trouble</option>
 </select>
 
-<button class="action" onclick="conseilLeurre()">Voir le conseil</button>
+<select id="l_meteo">
+<option>Soleil</option><option>Couvert</option><option>Pluie</option>
+</select>
+
+<button class="action" onclick="conseilLeurre()">Afficher le conseil</button>
 </div>
 
 <div class="card" id="leurre_resultat"></div>
@@ -68,42 +79,29 @@ img{width:100%;border-radius:10px;margin-top:10px}
 <h2>Conseils Montages</h2>
 
 <select id="m_espece">
-<option>Brochet</option><option>Sandre</option><option>Perche</option>
-<option>Truite</option><option>Black-bass</option>
+<option>Ablette</option><option>Gardon</option><option>Brème</option>
+<option>Perche</option><option>Truite</option><option>Black-bass</option>
+<option>Sandre</option><option>Brochet</option><option>Silure</option>
 </select>
 
-<button class="action" onclick="conseilMontage()">Voir le montage</button>
+<select id="m_saison">
+<option>Printemps</option><option>Été</option><option>Automne</option><option>Hiver</option>
+</select>
+
+<button class="action" onclick="conseilMontage()">Afficher le montage</button>
 </div>
 
 <div class="card" id="montage_resultat"></div>
 </section>
 
-<section id="capture">
+<section id="info">
 <div class="card">
-<h2>Partager une capture</h2>
-
-<input id="c_espece" placeholder="Espèce">
-<input id="c_leurre" placeholder="Leurre utilisé">
-<input id="c_montage" placeholder="Montage">
-<input type="file" id="c_photo" accept="image/*">
-
-<button class="action" onclick="getGPS()">📍 Utiliser ma position GPS</button>
-<p id="gps"></p>
-
-<button class="action" onclick="saveCapture()">Enregistrer</button>
+<h2>À propos</h2>
+<p>Ce site fournit des conseils généraux de pêche en eau douce. Adapte toujours selon la réglementation locale.</p>
 </div>
-
-<div id="captures"></div>
 </section>
 
-<section id="chat">
-<div class="card">
-<h2>Discussion</h2>
-<textarea id="msg" placeholder="Ton message..."></textarea>
-<button class="action" onclick="sendMsg()">Envoyer</button>
-</div>
-<div id="messages"></div>
-</section>
+<div class="footer">© Pêche 47 – Conseils pêche eau douce</div>
 
 <script>
 function show(id){
@@ -111,55 +109,29 @@ document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
 document.getElementById(id).classList.add('active');
 }
 
-/* LEURRES */
 function conseilLeurre(){
-const e=document.getElementById('l_espece').value;
-document.getElementById('leurre_resultat').innerHTML=
-`<h2>${e}</h2><p>Leurre adapté à l'espèce, saison et profondeur sélectionnées.</p>`;
+const e=l_espece.value;
+leurre_resultat.innerHTML=
+`<h2>${e}</h2>
+<p>Leurre conseillé : leurre souple / cuillère / poisson nageur selon conditions.</p>
+<p>Grammage adapté à l'espèce et à la profondeur.</p>
+<img src="data:image/svg+xml;utf8,
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100'>
+<rect width='200' height='100' fill='%234caf50'/>
+<text x='50%' y='55%' fill='white' font-size='14' text-anchor='middle'>LEURRE</text>
+</svg>">`;
 }
 
-/* MONTAGES */
 function conseilMontage(){
-const e=document.getElementById('m_espece').value;
-document.getElementById('montage_resultat').innerHTML=
-`<h2>${e}</h2><p>Montage recommandé : tête plombée / drop shot / cuillère selon conditions.</p>`;
-}
-
-/* GPS */
-let lat=null,lon=null;
-function getGPS(){
-navigator.geolocation.getCurrentPosition(p=>{
-lat=p.coords.latitude.toFixed(5);
-lon=p.coords.longitude.toFixed(5);
-document.getElementById('gps').innerText=`📍 ${lat} , ${lon}`;
-});
-}
-
-/* CAPTURE */
-function saveCapture(){
-const file=document.getElementById('c_photo').files[0];
-const reader=new FileReader();
-reader.onload=()=>{
-const div=document.createElement('div');
-div.className='post';
-div.innerHTML=
-`<strong>${c_espece.value}</strong><br>
-Leurre: ${c_leurre.value}<br>
-Montage: ${c_montage.value}<br>
-GPS: ${lat}, ${lon}<br>
-<img src="${reader.result}">`;
-document.getElementById('captures').prepend(div);
-};
-if(file)reader.readAsDataURL(file);
-}
-
-/* CHAT */
-function sendMsg(){
-const div=document.createElement('div');
-div.className='post';
-div.innerText=msg.value;
-messages.prepend(div);
-msg.value='';
+const e=m_espece.value;
+montage_resultat.innerHTML=
+`<h2>${e}</h2>
+<p>Montage recommandé : ligne simple adaptée à l'espèce et à la saison.</p>
+<img src="data:image/svg+xml;utf8,
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100'>
+<rect width='200' height='100' fill='%238bc34a'/>
+<text x='50%' y='55%' fill='black' font-size='14' text-anchor='middle'>MONTAGE</text>
+</svg>">`;
 }
 </script>
 
