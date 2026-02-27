@@ -1,147 +1,143 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pêche 47</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
 body{
-margin:0;
-font-family:'Poppins',sans-serif;
-background:#0f172a;
-color:white;
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#0f3d2e;
+  color:white;
 }
 header{
-background:linear-gradient(90deg,#065f46,#10b981);
-padding:20px;
-text-align:center;
-font-size:24px;
-font-weight:600;
+  background:#1b5e20;
+  padding:20px;
+  text-align:center;
+  font-size:26px;
+  font-weight:bold;
 }
 nav{
-display:flex;
-justify-content:center;
-gap:15px;
-background:#064e3b;
-padding:10px;
-flex-wrap:wrap;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  background:#2e7d32;
+  padding:10px;
+  flex-wrap:wrap;
 }
 nav button{
-background:#10b981;
-border:none;
-padding:10px 15px;
-border-radius:8px;
-color:white;
-font-weight:600;
-cursor:pointer;
+  background:#4caf50;
+  border:none;
+  padding:10px 15px;
+  border-radius:8px;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
 }
 section{
-display:none;
-padding:20px;
+  display:none;
+  padding:20px;
 }
-.active{
-display:block;
+section.active{
+  display:block;
 }
 .card{
-background:#1e293b;
-padding:15px;
-border-radius:12px;
-margin-bottom:20px;
-box-shadow:0 4px 10px rgba(0,0,0,0.4);
+  background:#1c1c1c;
+  border-radius:10px;
+  padding:15px;
+  margin-bottom:15px;
+}
+h2{
+  color:#8bc34a;
 }
 img{
-width:100%;
-border-radius:10px;
-margin-top:10px;
+  width:100%;
+  border-radius:10px;
+  margin-top:10px;
 }
-input,textarea{
-width:100%;
-padding:10px;
-margin-top:10px;
-border-radius:8px;
-border:none;
-}
-button.submit{
-background:#10b981;
-margin-top:10px;
+footer{
+  text-align:center;
+  padding:10px;
+  background:#1b5e20;
+  font-size:14px;
 }
 </style>
 </head>
+
 <body>
 
-<header>🎣 Pêche 47</header>
+<header>🎣 PÊCHE 47</header>
 
 <nav>
-<button onclick="show('home')">Accueil</button>
-<button onclick="show('conseils')">Conseils Leurres</button>
-<button onclick="show('montage')">Montages</button>
-<button onclick="show('chat')">Chat</button>
+  <button onclick="show('accueil')">Accueil</button>
+  <button onclick="show('leurres')">Conseils Leurres</button>
+  <button onclick="show('montages')">Conseils Montages</button>
+  <button onclick="show('communaute')">Communauté</button>
 </nav>
 
-<section id="home" class="active">
-<div class="card">
-<h2>Bienvenue pêcheur !</h2>
-<p>Site communautaire pour partager conseils, photos et techniques.</p>
-<img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e">
-</div>
+<section id="accueil" class="active">
+  <div class="card">
+    <h2>Bienvenue sur Pêche 47</h2>
+    <p>Site communautaire dédié à la pêche : conseils, leurres, montages et partage entre pêcheurs.</p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Fishing_in_river.jpg">
+  </div>
 </section>
 
-<section id="conseils">
-<div class="card">
-<h2>Brochet</h2>
-<p>Leurre conseillé : Shad 12-15cm</p>
-<p>Grammage : 15-30g</p>
-<img src="https://images.unsplash.com/photo-1571838516300-68c6a8c4f0f3">
-</div>
+<section id="leurres">
+  <div class="card">
+    <h2>🎣 Brochet</h2>
+    <p>Leurres conseillés : shad, spinnerbait, jerkbait</p>
+    <p>Grammage : 10g à 30g</p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Northern_Pike.jpg">
+  </div>
 
-<div class="card">
-<h2>Perche</h2>
-<p>Leurre conseillé : Petit crankbait</p>
-<p>Grammage : 5-10g</p>
-<img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5">
-</div>
+  <div class="card">
+    <h2>🎣 Truite</h2>
+    <p>Leurres conseillés : cuillère, petit minnow</p>
+    <p>Grammage : 2g à 7g</p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/Brown_trout.jpg">
+  </div>
 
-<div class="card">
-<h2>Sandre</h2>
-<p>Leurre conseillé : Shad souple 10cm</p>
-<p>Grammage : 10-20g</p>
-<img src="https://images.unsplash.com/photo-1602030638412-bb8dcc0bc8b0">
-</div>
+  <div class="card">
+    <h2>🎣 Perche</h2>
+    <p>Leurres conseillés : petits leurres souples, crankbait</p>
+    <p>Grammage : 3g à 10g</p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7d/Perca_fluviatilis.jpg">
+  </div>
 </section>
 
-<section id="montage">
-<div class="card">
-<h2>Montage Brochet au Shad</h2>
-<p>Tête plombée adaptée au courant.</p>
-<img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc">
-</div>
+<section id="montages">
+  <div class="card">
+    <h2>Montage au leurre souple</h2>
+    <p>Montage simple avec tête plombée, idéal pour le brochet et le sandre.</p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Soft_plastic_fishing_lures.jpg">
+  </div>
 
-<div class="card">
-<h2>Montage Drop Shot</h2>
-<p>Idéal pour perche et sandre.</p>
-<img src="https://images.unsplash.com/photo-1563720223185-11003d516935">
-</div>
+  <div class="card">
+    <h2>Montage cuillère</h2>
+    <p>Parfait pour la truite en rivière et ruisseau.</p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Fishing_spoons.jpg">
+  </div>
 </section>
 
-<section id="chat">
-<div class="card">
-<h2>Connexion</h2>
-<input type="text" placeholder="Pseudo">
-<button class="submit">Se connecter</button>
-</div>
-
-<div class="card">
-<h2>Discussion</h2>
-<textarea placeholder="Écris ton message..."></textarea>
-<button class="submit">Envoyer</button>
-</div>
+<section id="communaute">
+  <div class="card">
+    <h2>Communauté</h2>
+    <p>Bientôt : discussion entre pêcheurs, partage de photos et spots.</p>
+  </div>
 </section>
+
+<footer>
+  © Pêche 47 – 100% gratuit
+</footer>
 
 <script>
 function show(id){
-document.querySelectorAll('section').forEach(sec=>sec.classList.remove('active'));
-document.getElementById(id).classList.add('active');
+  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
 </script>
 
