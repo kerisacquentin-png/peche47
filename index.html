@@ -132,3 +132,81 @@ function conseil(){
 
 </body>
 </html>
+<button onclick="show('commentaires')">Commentaires</button>
+<button onclick="show('galerie')">Mur des prises</button>
+
+<button onclick="show('commentaires')">Commentaires</button>
+<button onclick="show('galerie')">Mur des prises</button>
+<section id="galerie">
+<h2>Mur des prises</h2>
+
+<input id="g_pseudo" placeholder="Votre pseudo">
+<input id="g_espece" placeholder="Espèce">
+<input id="g_photo" type="file" accept="image/*">
+<button onclick="addPhoto()">Publier</button>
+
+<div id="galerieList"></div>
+</section>
+<script>
+/* COMMENTAIRES */
+function addComment(){
+  const pseudo = document.getElementById("c_pseudo").value;
+  const msg = document.getElementById("c_message").value;
+  if(!pseudo || !msg) return;
+
+  const data = JSON.parse(localStorage.getItem("commentaires") || "[]");
+  data.push({
+    pseudo,
+    msg,
+    date: new Date().toLocaleString()
+  });
+  localStorage.setItem("commentaires", JSON.stringify(data));
+
+  document.getElementById("c_message").value = "";
+  displayComments();
+}
+
+function displayComments(){
+  const data = JSON.parse(localStorage.getItem("commentaires") || "[]");
+  document.getElementById("commentList").innerHTML = data.map(c => `
+    <div class="card">
+      <b>${c.pseudo}</b> <small>${c.date}</small><br>
+      ${c.msg}
+    </div>
+  `).join("");
+}
+displayComments();
+
+/* GALERIE */
+function addPhoto(){
+  const pseudo = document.getElementById("g_pseudo").value;
+  const espece = document.getElementById("g_espece").value;
+  const file = document.getElementById("g_photo").files[0];
+  if(!pseudo || !espece || !file) return;
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    const data = JSON.parse(localStorage.getItem("galerie") || "[]");
+    data.push({
+      pseudo,
+      espece,
+      photo: e.target.result,
+      date: new Date().toLocaleDateString()
+    });
+    localStorage.setItem("galerie", JSON.stringify(data));
+    displayGalerie();
+  };
+  reader.readAsDataURL(file);
+}
+
+function displayGalerie(){
+  const data = JSON.parse(localStorage.getItem("galerie") || "[]");
+  document.getElementById("galerieList").innerHTML = data.map(g => `
+    <div class="card">
+      <b>${g.pseudo}</b> – ${g.espece} (${g.date})<br>
+      <img src="${g.photo}">
+    </div>
+  `).join("");
+}
+displayGalerie();
+</script>
