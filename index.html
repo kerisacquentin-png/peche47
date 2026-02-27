@@ -1,184 +1,192 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pêche 47 Super Complet</title>
+
 <style>
 body { font-family: Arial, sans-serif; background-color: #e0f2e9; margin:0; padding:0; }
 header { background-color: #2e7d32; color: white; text-align: center; padding: 15px; font-size: 24px; }
 button { width: 90%; padding: 15px; margin: 10px auto; display: block; font-size: 18px; background-color: #388e3c; color: white; border: none; border-radius: 10px; }
 section { padding: 15px; display: none; }
 input, select { width: 95%; padding: 10px; margin:5px 0; font-size:16px; }
-#journalList, #spotsList, #chatList { margin-top: 10px; max-height: 300px; overflow-y: auto; }
-img { max-width: 100%; border-radius: 8px; margin-top: 5px; }
+img { max-width: 100%; border-radius: 8px; margin-top: 8px; }
 </style>
 </head>
+
 <body>
+
 <header>Pêche 47</header>
 
 <button onclick="showSection('journal')">Journal de captures</button>
 <button onclick="showSection('spots')">Mes Spots</button>
-<button onclick="showSection('leurres')">Conseiller Leurres</button>
+<button onclick="showSection('leurres')">Conseils Montages / Leurres</button>
 <button onclick="showSection('chat')">Chat Pêcheurs</button>
 
-<!-- Journal -->
+<!-- JOURNAL -->
 <section id="journal">
 <h2>Ajouter une capture</h2>
-<input type="text" id="espece" placeholder="Espèce">
-<input type="number" id="taille" placeholder="Taille (cm)">
-<input type="number" id="poids" placeholder="Poids (kg)">
-<input type="text" id="leurre" placeholder="Leurre utilisé">
-<input type="number" id="grammage" placeholder="Grammage du leurre (g)">
-<input type="file" id="photoCapture" accept="image/*">
+<input id="espece" placeholder="Espèce">
+<input id="taille" type="number" placeholder="Taille (cm)">
+<input id="poids" type="number" placeholder="Poids (kg)">
+<input id="leurre" placeholder="Montage / Leurre">
+<input id="grammage" type="number" placeholder="Grammage (g)">
+<input id="photoCapture" type="file" accept="image/*">
 <button onclick="addCapture()">Ajouter</button>
 <div id="journalList"></div>
 </section>
 
-<!-- Spots -->
+<!-- SPOTS -->
 <section id="spots">
 <h2>Ajouter un Spot</h2>
-<input type="text" id="spotName" placeholder="Nom du spot">
-<select id="typeEau"><option>Rivière</option><option>Lac</option><option>Étang</option></select>
-<button onclick="addSpot()">Ajouter Spot</button>
+<input id="spotName" placeholder="Nom du spot">
+<select id="typeEau">
+  <option>Rivière</option>
+  <option>Lac</option>
+  <option>Étang</option>
+</select>
+<button onclick="addSpot()">Ajouter</button>
 <div id="spotsList"></div>
 </section>
 
-<!-- Conseiller Leurres -->
+<!-- LEURRES / MONTAGES -->
 <section id="leurres">
-<h2>Conseiller Leurres</h2>
+<h2>Conseils Montages / Leurres</h2>
+
 <select id="esp">
-<option>Brochet</option>
-<option>Sandre</option>
-<option>Perche</option>
-<option>Truite</option>
-<option>Carpe</option>
-<option>Black Bass</option>
+  <option>Brochet</option>
+  <option>Sandre</option>
+  <option>Perche</option>
+  <option>Truite</option>
+  <option>Black Bass</option>
+  <option>Carpe</option>
+  <option>Silure</option>
 </select>
+
 <select id="saison">
-<option>Printemps</option>
-<option>Été</option>
-<option>Automne</option>
-<option>Hiver</option>
+  <option>Printemps</option>
+  <option>Été</option>
+  <option>Automne</option>
+  <option>Hiver</option>
 </select>
-<select id="eau">
-<option>Clair</option>
-<option>Trouble</option>
-</select>
-<select id="profondeur">
-<option>Peu profonde</option>
-<option>Moyenne</option>
-<option>Profonde</option>
-</select>
+
 <button onclick="conseilLeurre()">Obtenir conseil</button>
 <div id="resultLeurre"></div>
 </section>
 
-<!-- Chat -->
+<!-- CHAT -->
 <section id="chat">
 <h2>Chat Pêcheurs</h2>
-<input type="text" id="chatMsg" placeholder="Votre message">
-<input type="file" id="chatPhoto" accept="image/*">
+<input id="chatMsg" placeholder="Votre message">
+<input id="chatPhoto" type="file" accept="image/*">
 <button onclick="addChatMessage()">Envoyer</button>
 <div id="chatList"></div>
 </section>
 
 <script>
+showSection('journal');
+
 function showSection(id){
   document.querySelectorAll('section').forEach(s=>s.style.display='none');
   document.getElementById(id).style.display='block';
 }
 
-// Journal
+/* JOURNAL */
 function addCapture(){
-  const espece=document.getElementById('espece').value;
-  const taille=document.getElementById('taille').value;
-  const poids=document.getElementById('poids').value;
-  const leurre=document.getElementById('leurre').value;
-  const grammage=document.getElementById('grammage').value;
-  const photoInput=document.getElementById('photoCapture');
-  let photo='';
-  if(photoInput.files.length>0){
-    const reader=new FileReader();
-    reader.onload=function(e){ photo=e.target.result; saveCapture(photo); };
-    reader.readAsDataURL(photoInput.files[0]);
-  } else {
-    saveCapture(photo);
-  }
+  const espece=especeInput('espece');
+  const taille=especeInput('taille');
+  const poids=especeInput('poids');
+  const leurre=especeInput('leurre');
+  const grammage=especeInput('grammage');
+  const file=document.getElementById('photoCapture').files[0];
 
-  function saveCapture(photoData){
-    const journal=JSON.parse(localStorage.getItem('journal')||'[]');
-    journal.push({espece,taille,poids,leurre,grammage,photo});
-    localStorage.setItem('journal',JSON.stringify(journal));
+  if(file){
+    const r=new FileReader();
+    r.onload=e=>save(e.target.result);
+    r.readAsDataURL(file);
+  } else save('');
+
+  function save(photo){
+    const j=JSON.parse(localStorage.getItem('journal')||'[]');
+    j.push({espece,taille,poids,leurre,grammage,photo});
+    localStorage.setItem('journal',JSON.stringify(j));
     displayJournal();
   }
 }
+
 function displayJournal(){
-  const journal=JSON.parse(localStorage.getItem('journal')||'[]');
-  document.getElementById('journalList').innerHTML=journal.map(j=>
-    `<div><strong>${j.espece}</strong> - ${j.taille}cm - ${j.poids}kg - Leurre: ${j.leurre} ${j.grammage}g
-     ${j.photo?'<br><img src="'+j.photo+'">':''}</div>`).join('');
+  const j=JSON.parse(localStorage.getItem('journal')||'[]');
+  journalList.innerHTML=j.map(c=>`
+    <div>
+      <b>${c.espece}</b> – ${c.taille}cm – ${c.poids}kg<br>
+      ${c.leurre} (${c.grammage}g)
+      ${c.photo?`<br><img src="${c.photo}">`:''}
+    </div>`).join('');
 }
 displayJournal();
 
-// Spots
+/* SPOTS */
 function addSpot(){
-  const name=document.getElementById('spotName').value;
-  const type=document.getElementById('typeEau').value;
-  if(name){
-    const spots=JSON.parse(localStorage.getItem('spots')||'[]');
-    spots.push({name,type});
-    localStorage.setItem('spots',JSON.stringify(spots));
-    displaySpots();
-  }
+  const s=JSON.parse(localStorage.getItem('spots')||'[]');
+  s.push({name:spotName.value,type:typeEau.value});
+  localStorage.setItem('spots',JSON.stringify(s));
+  displaySpots();
 }
 function displaySpots(){
-  const spots=JSON.parse(localStorage.getItem('spots')||'[]');
-  document.getElementById('spotsList').innerHTML=spots.map(s=>`<div><strong>${s.name}</strong> (${s.type})</div>`).join('');
+  const s=JSON.parse(localStorage.getItem('spots')||'[]');
+  spotsList.innerHTML=s.map(x=>`<div>${x.name} (${x.type})</div>`).join('');
 }
 displaySpots();
 
-// Conseiller Leurres
+/* CONSEILS */
 function conseilLeurre(){
-  const esp=document.getElementById('esp').value;
-  const saison=document.getElementById('saison').value;
-  const eau=document.getElementById('eau').value;
-  const prof=document.getElementById('profondeur').value;
-  let leurre='Leurre recommandé: ';
-  // Logique simple mais extensible
-  if(esp=='Brochet') leurre+='Spinnerbait ou Jig';
-  else if(esp=='Sandre') leurre+='Shad ou Jig souple';
-  else if(esp=='Perche') leurre+='Petits leurres souples ou cuillères';
-  else if(esp=='Truite') leurre+='Petits poissons nageurs ou cuillères';
-  else if(esp=='Carpe') leurre+='Bouillettes ou pellets';
-  else if(esp=='Black Bass') leurre+='Jig ou crankbait';
-  document.getElementById('resultLeurre').innerText=leurre;
+  const e=esp.value;
+  const data={
+    "Brochet":{txt:"Spinnerbait ou vif",img:"spinnerbait"},
+    "Sandre":{txt:"Shad en verticale",img:"shad"},
+    "Perche":{txt:"Drop shot léger",img:"drop_shot"},
+    "Truite":{txt:"Cuillère ou PN",img:"cuillere"},
+    "Black Bass":{txt:"Crankbait ou leurre souple",img:"crankbait"},
+    "Carpe":{txt:"Pellets ou bouillettes",img:"pellet"},
+    "Silure":{txt:"Montage vif",img:"montage_vif"}
+  };
+  const d=data[e];
+  resultLeurre.innerHTML=`
+    <h3>${e}</h3>
+    <p>${d.txt}</p>
+    <img src="images/montages/${d.img}.jpeg">
+  `;
 }
 
-// Chat
+/* CHAT */
 function addChatMessage(){
-  const msg=document.getElementById('chatMsg').value;
-  const photoInput=document.getElementById('chatPhoto');
-  let photo='';
-  if(photoInput.files.length>0){
-    const reader=new FileReader();
-    reader.onload=function(e){ saveChat(photo); };
-    reader.readAsDataURL(photoInput.files[0]);
-  } else { saveChat(photo); }
+  const msg=chatMsg.value;
+  const f=chatPhoto.files[0];
+  if(f){
+    const r=new FileReader();
+    r.onload=e=>save(e.target.result);
+    r.readAsDataURL(f);
+  } else save('');
 
-  function saveChat(photoData){
-    const chat=JSON.parse(localStorage.getItem('chat')||'[]');
-    chat.push({msg,photo:photoData});
-    localStorage.setItem('chat',JSON.stringify(chat));
+  function save(photo){
+    const c=JSON.parse(localStorage.getItem('chat')||'[]');
+    c.push({msg,photo});
+    localStorage.setItem('chat',JSON.stringify(c));
     displayChat();
   }
 }
 function displayChat(){
-  const chat=JSON.parse(localStorage.getItem('chat')||'[]');
-  document.getElementById('chatList').innerHTML=chat.map(c=>`<div>${c.msg}${c.photo?'<br><img src="'+c.photo+'">':''}</div>`).join('');
+  const c=JSON.parse(localStorage.getItem('chat')||'[]');
+  chatList.innerHTML=c.map(m=>`
+    <div>${m.msg}${m.photo?`<br><img src="${m.photo}">`:''}</div>
+  `).join('');
 }
 displayChat();
 
+function especeInput(id){ return document.getElementById(id).value; }
 </script>
+
 </body>
 </html>
